@@ -9,7 +9,8 @@ namespace MemberSystem.Infrastructure.EntityFrameworkCore.EntityTypeConfiguratio
         public void Configure(EntityTypeBuilder<ApplyFile> builder)
         {
             builder.ToTable("apply_file");
-            builder.HasKey(b => b.Id).HasName("id");
+            builder.HasKey(b => b.Id);
+            builder.Property(b => b.Id).HasColumnName("id");
             builder.Property(b => b.UserId).HasColumnName("user_id");
             builder.Property(b => b.FilePath).HasColumnName("file_path").HasColumnType("varchar(200)").HasDefaultValue("");
             builder.Property(b => b.CreateTime).HasColumnName("created_at").IsRequired();

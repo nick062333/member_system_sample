@@ -9,7 +9,8 @@ namespace MemberSystem.Infrastructure.EntityFrameworkCore.EntityTypeConfiguratio
         public void Configure(EntityTypeBuilder<Org> builder)
         {
             builder.ToTable("orgs");
-            builder.HasKey(b => b.Id).HasName("id");
+            builder.HasKey(b => b.Id);
+            builder.Property(b => b.Id).HasColumnName("id");
             builder.Property(b => b.OrgNo).HasColumnName("org_no").IsRequired().HasColumnType("varchar(20)").HasDefaultValue("");
             builder.Property(b => b.Title).HasColumnName("title").IsRequired().HasColumnType("nvarchar(20)").HasDefaultValue("");
             builder.Property(b => b.CreateTime).HasColumnName("created_at").IsRequired();

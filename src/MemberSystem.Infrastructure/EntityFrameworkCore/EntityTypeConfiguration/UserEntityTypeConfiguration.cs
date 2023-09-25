@@ -9,7 +9,8 @@ namespace MemberSystem.Infrastructure.EntityFrameworkCore.EntityTypeConfiguratio
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("users");
-            builder.HasKey(b => b.Id).HasName("id");
+            builder.HasKey(b => b.Id);
+            builder.Property(b => b.Id).HasColumnName("id");
             builder.Property(b => b.OrgId).HasColumnName("org_id");
             builder.Property(b => b.Name).HasColumnName("name").HasColumnType("nvarchar(20)").IsRequired().HasDefaultValue("");
             builder.Property(b => b.BirthDay).HasColumnName("birthday").HasColumnType("date").IsRequired();
