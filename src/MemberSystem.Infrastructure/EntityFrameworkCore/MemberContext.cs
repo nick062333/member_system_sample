@@ -25,6 +25,7 @@ namespace MemberSystem.Infrastructure.EntityFrameworkCore
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
+
             await _mediator.DispatchDomainEventsAsync(this);
 
             _ = await base.SaveChangesAsync(cancellationToken);
