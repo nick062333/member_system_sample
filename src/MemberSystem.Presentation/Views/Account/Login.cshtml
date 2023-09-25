@@ -5,13 +5,15 @@
 }
 
 <form asp-controller="Demo" asp-action="Register" asp-route-ReturnUrl="/" method="post">
-    <div>
-        Account: <input type="text" id="Account" name="Account" value="">
-        Password:<input type="password" id="Password" name="Password" value="">
-        <button asp-controller="Account" asp-action="Login">登入</button>
-        <button asp-controller="User" asp-action="Register">
-            註冊
-        </button>
-    </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">帳號</label>
+        <input type="text" id="Account" name="Account" class="form-control" value="">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">密碼</label>
+        <input type="text" id="Account" name="Account" class="form-control" value="">
+        </div>
+    <button asp-controller="Account" asp-action="Login" class="btn btn-primary">登入</button>
+    <a asp-controller="User" asp-action="Register" class="btn btn-primary">註冊</a>
 </form>
 

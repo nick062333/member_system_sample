@@ -1,21 +1,32 @@
-﻿using MemberSystem.Web.DTOs;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using MemberSystem.Application.Queries;
+using MemberSystem.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MemberSystem.Web.Controllers
 {
     public class UserController : Controller
     {
-        // GET: UserController
-        public ActionResult Register()
+        private readonly IOrgService _orgService;
+
+        public UserController(IOrgService orgService) 
         {
-            return View();
+            _orgService = orgService;
+        }
+
+        // GET: UserController
+        public async Task<ActionResult> Register()
+        {
+            ViewBag.OrgList = (await _orgService.GetAllOrgListAsync())
+                .Select(x => new SelectListItem(x.Title, x.Id.ToString()))
+                .ToList();
+
+            return View() ;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserRegisterDto userRegisterDto)
+        public ActionResult Register(UserRegisterModel userRegisterDto)
         {
             if (!ModelState.IsValid)
                 return View(userRegisterDto);

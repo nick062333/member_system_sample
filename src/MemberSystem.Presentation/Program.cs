@@ -1,6 +1,7 @@
+using MemberSystem.Application.Registers;
+using MemberSystem.Infrastructure.Config;
 using MemberSystem.Infrastructure.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -18,28 +19,25 @@ namespace MemberSystem.Web.Web
             builder.Services.AddDbContext<MemberContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("MemberContext")));
 
+            builder.Services.Configure<ConnectionSettings>(builder.Configuration.GetSection("ConnectionStrings"));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddAuthentication(MemberSystemConfig.CookieScheme) // Sets the default scheme to cookies
+            builder.Services.AddAuthentication(MemberSystemConfig.CookieScheme)
              .AddCookie(MemberSystemConfig.CookieScheme, options =>
              {
                  options.AccessDeniedPath = "/account/denied";
                  options.LoginPath = "/account/login";
              });
-
-            // Example of how to customize a particular instance of cookie options and
-            // is able to also use other services.
             builder.Services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureMyCookie>();
 
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
-
-                //cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-                //cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
-                //cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
+
+            ApplicationRegister.RegisterDapperTypeMap();
+            builder.Services.RegisterQueriesServices();
 
             var app = builder.Build();
 
@@ -59,7 +57,6 @@ namespace MemberSystem.Web.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllerRoute(
                 name: "default",

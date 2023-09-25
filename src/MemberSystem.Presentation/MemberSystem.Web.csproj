@@ -18,7 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MemberSystem.Application\MemberSystem.Application.csproj" />
     <ProjectReference Include="..\MemberSystem.Infrastructure\MemberSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>
